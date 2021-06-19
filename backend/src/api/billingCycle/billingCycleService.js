@@ -2,7 +2,7 @@
 const BillingCycle = require('./billingCycle')
 
 BillingCycle.methods(['get', 'post', 'put', 'delete'])
-BillingCycle.updateOptions({ new: true, runValidators: true }) // retorna sempre o objeto novo
+// BillingCycle.updateOptions({ new: true, runValidators: true }) // retorna sempre o objeto novo
 
 // BillingCycle.route('get', (req, res, next) => {
 //     BillingCycle.find({}, (err,docs) {
