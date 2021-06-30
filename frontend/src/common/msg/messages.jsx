@@ -6,7 +6,8 @@ export default props => (
     <ReduxToastr 
         timeOut={4000}
         newestOnTop={true}
-        preventDuplicates={false}
+        preventDuplicates={true}
+        position='top-right'
         transitionOut='fadeOut'
         transitionIn='fadeIn'
         progressBar
