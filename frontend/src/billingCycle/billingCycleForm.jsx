@@ -28,6 +28,7 @@ class BillingCycleForm extends Component{
                     <Field 
                         name='year' 
                         component={labelAndInput}
+                        type='number'
                         label='Ano'
                         cols='12 4'
                         placeholder='Informe o ano'
@@ -43,4 +44,4 @@ class BillingCycleForm extends Component{
     }
 }
 
-export default reduxForm({form: 'billingCycleForm'})(BillingCycleForm)
+export default reduxForm({form: 'billingCycleForm', destroyOnUnmount: false})(BillingCycleForm)
