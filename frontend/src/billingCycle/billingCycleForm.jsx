@@ -28,7 +28,6 @@ class BillingCycleForm extends Component{
                     <Field 
                         name='year' 
                         component={labelAndInput}
-                        type='number'
                         label='Ano'
                         cols='12 4'
                         placeholder='Informe o ano'
