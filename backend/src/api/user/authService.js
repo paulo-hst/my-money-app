@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const User = require('./user')
 const env = require('../../.env')
 
@@ -14,28 +14,24 @@ const sendErrorsFromDB = (res, dbErrors) => {
 }
 
 const login = (req, res, next) => {
-
-    // receber dados de login
     const email = req.body.email || ''
     const password = req.body.password || ''
 
-    // pesquisar usuário existente no banco de dados e retornar token de autenticação
     User.findOne({ email }, (err, user) => {
         if (err) {
             return sendErrorsFromDB(res, err)
         } else if (user && bcrypt.compareSync(password, user.password)) {
-            const token = jwt.sign(user, env.authSecret, {
-                expiresIn: '1 day'
+            const token = jwt.sign({ ...user }, env.authSecret, {
+                expiresIn: "1 day"
             })
             const { name, email } = user
             res.json({ name, email, token })
         } else {
-            return res.status(400), send({ errors: ['Usuário/Senha inválidos'] })
+            return res.status(400).send({ errors: ['Usuário/Senha inválidos'] })
         }
     })
 }
 
-// valida token disponível no localstorage do navegador
 const validateToken = (req, res, next) => {
     const token = req.body.token || ''
 
@@ -57,14 +53,13 @@ const signup = (req, res, next) => {
     if (!password.match(passwordRegex)) {
         return res.status(400).send({
             errors: [
-                "Senha precisar ter: uma letra maiúscula, uma letra minúscula, um número, uma caractere especial(@#$%) e tamanho entre 6 - 20."
+                "Senha precisar ter: uma letra maiúscula, uma letra minúscula, um número, uma caractere especial(@#$ %) e tamanho entre 6-20."
             ]
         })
     }
 
     const salt = bcrypt.genSaltSync()
     const passwordHash = bcrypt.hashSync(password, salt)
-
     if (!bcrypt.compareSync(confirmPassword, passwordHash)) {
         return res.status(400).send({ errors: ['Senhas não conferem.'] })
     }
@@ -76,7 +71,6 @@ const signup = (req, res, next) => {
             return res.status(400).send({ errors: ['Usuário já cadastrado.'] })
         } else {
             const newUser = new User({ name, email, password: passwordHash })
-
             newUser.save(err => {
                 if (err) {
                     return sendErrorsFromDB(res, err)
