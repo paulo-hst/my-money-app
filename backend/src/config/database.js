@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
-module.exports = mongoose.connect('mongodb://localhost/mymoney', { useNewUrlParser: true })
+module.exports = mongoose.connect('mongodb+srv://paulo:<password>@cluster0.ygfoj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true })
 
 // mensagem de erro ao retornar um post
 mongoose.Error.messages.general.required = "O atributo '{PATH}' é obrigatório."
